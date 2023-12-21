@@ -23,7 +23,6 @@ The development server should now be running at http://localhost:8000/.
 
 Access the Admin Panel
 Visit http://localhost:8000/admin/ and log in with the superuser credentials if created.
-
-...
-## Code Standards and Naming Conventions
-Please follow the [PEP-8]([https://www.python.org/dev/peps/pep-0008/](https://www.datacamp.com/tutorial/pep8-tutorial-python-code)) style guide for maintaining code consistency. Adhering to PEP-8 helps in creating clean, readable, and maintainable code.
+```
+# Code Standards and Naming Conventions
+Please follow the [PEP-8](https://www.datacamp.com/tutorial/pep8-tutorial-python-code) style guide for maintaining code consistency. Adhering to PEP-8 helps in creating clean, readable, and maintainable code.
