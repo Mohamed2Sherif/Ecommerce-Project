@@ -8,8 +8,8 @@ class AddressTypeChoices(models.TextChoices):
     OFFICE = 'office', 'Office'
 # Create your models here.
 class Address(models.Model):
-    address_ID = models.UUIDField(primary_key=True,db_index=True,unique=True,)
-    user_ID = models.ForeignKey(User,on_delete=models.CASCADE,db_index = True)
+    address_ID = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
+    user_ID = models.ForeignKey(User,on_delete=models.CASCADE)
     effective_Date = models.DateField()
     address_type = models.CharField(max_length=20, choices=AddressTypeChoices.choices)
     address_line_1 = models.CharField(max_length=255)
