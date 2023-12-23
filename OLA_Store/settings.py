@@ -31,6 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    #thirdparty apps
+    
+    #local 
+    'src.users',
+    
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -75,8 +80,12 @@ WSGI_APPLICATION = "OLA_Store.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "nhmmzdfx",
+        "USER": "nhmmzdfx",
+        "PASSWORD": "MSCDZtfeOJRoe-gLnbTzZ7kF0AT85xKA",
+        'HOST' : "mel.db.elephantsql.com",
+        "port" : "5432"
     }
 }
 
@@ -102,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
-
+AUTH_USER_MODEL = "src_users.User"
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
