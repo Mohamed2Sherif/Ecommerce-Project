@@ -35,6 +35,8 @@ INSTALLED_APPS = [
     
     #local 
     'src.users',
+    'src.address',
+    
     
     "django.contrib.admin",
     "django.contrib.auth",
@@ -79,13 +81,17 @@ WSGI_APPLICATION = "OLA_Store.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = {
+    # "default": {
+    #     "ENGINE": "django.db.backends.postgresql",
+    #     "NAME": "nhmmzdfx",
+    #     "USER": "nhmmzdfx",
+    #     "PASSWORD": "MSCDZtfeOJRoe-gLnbTzZ7kF0AT85xKA",
+    #     'HOST' : "mel.db.elephantsql.com",
+    #     "port" : "5432"
+    # }
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "nhmmzdfx",
-        "USER": "nhmmzdfx",
-        "PASSWORD": "MSCDZtfeOJRoe-gLnbTzZ7kF0AT85xKA",
-        'HOST' : "mel.db.elephantsql.com",
-        "port" : "5432"
+        "ENGINE" : "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "sqlite3.db"
     }
 }
 
