@@ -16,4 +16,4 @@ class AddressAdmin(admin.ModelAdmin):
     ]
 
     #  Add readonly_fields if needed
-    readonly_fields = ['user']
+    # readonly_fields = ['user']

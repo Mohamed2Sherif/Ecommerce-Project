@@ -1,6 +1,6 @@
 from django.db import models
 import uuid
-from src.users.models import User
+from django.contrib.auth import get_user_model
 class AddressTypeChoices(models.TextChoices):
     BILLING = 'billing', 'Billing'
     HOME = 'home', 'Home'
@@ -8,7 +8,7 @@ class AddressTypeChoices(models.TextChoices):
 # Create your models here.
 class Address(models.Model):
     address_ID = models.UUIDField(primary_key=True,editable=False,default=uuid.uuid4)
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(),on_delete=models.CASCADE)
     effective_date = models.DateField()
     address_type = models.CharField(max_length=20, choices=AddressTypeChoices.choices)
     address_line_1 = models.CharField(max_length=255)
