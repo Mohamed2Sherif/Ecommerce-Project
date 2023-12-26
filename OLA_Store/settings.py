@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     #local 
     'src.users',
     'src.address',
-    
+    'src.products',
     
     "django.contrib.admin",
     "django.contrib.auth",
