@@ -1,7 +1,8 @@
-import pymongo ,os
+from mongoengine import connect
+import os
 
-url = os.environ.get('MONGODB_LOCAL_URL')
-
-client = pymongo.MongoClient(url)
-
-db =  client['test_db']
+name = os.environ.get("MONGO_DB_NAME")
+host = os.environ.get("MONGO_DB_HOST")
+port = os.environ.get("MONGO_DB_PORT")
+url = os.environ.get("MONGO_DB_CONNECTION_URL")
+connect(HOST=url,db="OLA_Store")
