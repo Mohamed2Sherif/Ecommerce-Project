@@ -31,13 +31,11 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    #thirdparty apps
-    
-    #local 
-    'src.users',
-    'src.address',
-    'src.products',
-    
+    # thirdparty apps
+    # local
+    "src.users",
+    "src.address",
+    "src.products",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -86,8 +84,8 @@ DATABASES = {
         "NAME": "nhmmzdfx",
         "USER": "nhmmzdfx",
         "PASSWORD": "MSCDZtfeOJRoe-gLnbTzZ7kF0AT85xKA",
-        'HOST' : "mel.db.elephantsql.com",
-        "port" : "5432"
+        "HOST": "mel.db.elephantsql.com",
+        "port": "5432",
     }
     # "default": {
     #     "ENGINE" : "django.db.backends.sqlite3",
