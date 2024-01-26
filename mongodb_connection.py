@@ -1,8 +1,7 @@
+from django.conf import settings
 from mongoengine import connect
-import os
-
-name = os.environ.get("MONGO_DB_NAME")
-host = os.environ.get("MONGO_DB_HOST")
-port = os.environ.get("MONGO_DB_PORT")
-url = os.environ.get("MONGO_DB_CONNECTION_URL")
+name = settings.MONGO_DB_NAME
+host = settings.MONGO_DB_HOST
+port = settings.MONGO_DB_PORT
+url = settings.MONGO_DB_CONNECTION_URL
 connect(HOST=url,db="OLA_Store")
