@@ -113,10 +113,28 @@ class Customer(models.Model):
 class Vendor(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE)
     
+    #business information
     company_name = models.CharField(max_length=255)
     business_registration_id = models.CharField(max_length=50)
     tax_id = models.CharField(max_length=20)
     
+    # store contact information
     company_email = models.EmailField()
     company_phone_number = models.CharField(max_length=15)
     
+    
+    
+    
+    
+    
+    
+    
+    
+        # Order Fulfillment
+    orders_received = models.ManyToManyField(Order)
+    shipping_details = models.TextField()
+    
+    #store and brand information
+    store_logo = models.ImageField(upload_to="store_logos/")
+    store_description = models.TextField()
+    store_policies = models.TextField()
