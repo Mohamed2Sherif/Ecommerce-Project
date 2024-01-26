@@ -9,6 +9,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 from src.products.models import Product 
 from src.address.models import Address
+from src.orders.models import Order
 class UserManager(BaseUserManager):
     def get_user(self, public_id):
         try:
@@ -91,14 +92,13 @@ class PaymentInformation(models.Model):
     def __str__(self):
         return f"PaymentInformation for {self.customer.username}"
 
-    #TODO: Create a save method right here and perforom hashing for all card information
+    #FIXME: Create a save method right here and perforom hashing for all card information
     #before saving any info to the database.
     
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE)
     profilePicture = models.ImageField(upload_to="Customerimages/")
-    # TODO: when creating the orders model don't forget to add the order model to the many to many relationship
-    orderHistory = models.ManyToManyField() #Order
+    orderHistory = models.ManyToManyField(Order) 
     shoppingCart = models.ManyToManyField(Product)
     paymentInformation = models.OneToOneField(PaymentInformation, null=True,blank=True,on_delete=models.SET_NULL)
     def add_to_cart(self, product):
@@ -130,7 +130,7 @@ class Vendor(models.Model):
     
     
     
-        # Order Fulfillment
+    # Order Fulfillment
     orders_received = models.ManyToManyField(Order)
     shipping_details = models.TextField()
     
