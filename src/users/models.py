@@ -7,9 +7,12 @@ from django.contrib.auth.models import (
 )
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
-from src.products.models import Product 
-from src.address.models import Address
+
+from django.contrib.auth import get_user_model
 from src.orders.models import Order
+from src.products.models import Product
+
+
 class UserManager(BaseUserManager):
     def get_user(self, public_id):
         try:
@@ -81,8 +84,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     # TODO: Create the save method for user model and hash the important user fields
 
+from src.address.models import Address
 class PaymentInformation(models.Model):
-    customer = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     card_number = models.CharField(max_length=16, null=True, blank=True)
     expiration_date = models.DateField(null=True, blank=True)
     cvv = models.CharField(max_length=4, null=True, blank=True)
@@ -90,28 +94,18 @@ class PaymentInformation(models.Model):
     
     
     def __str__(self):
-        return f"PaymentInformation for {self.customer.username}"
+        return f"PaymentInformation for {self.user.username}"
 
     #FIXME: Create a save method right here and perforom hashing for all card information
     #before saving any info to the database.
     
 class Customer(models.Model):
-    user = models.OneToOneField(User, on_delete= models.CASCADE)
+    user = models.OneToOneField(get_user_model(), on_delete= models.CASCADE)
     profilePicture = models.ImageField(upload_to="Customerimages/")
-    orderHistory = models.ManyToManyField(Order) 
-    shoppingCart = models.ManyToManyField(Product)
     paymentInformation = models.OneToOneField(PaymentInformation, null=True,blank=True,on_delete=models.SET_NULL)
-    def add_to_cart(self, product):
-        self.shoppingCart.add(product)
-
-    def remove_from_cart(self, product):
-        self.shoppingCart.remove(product)
-
-    def clear_cart(self):
-        self.shoppingCart.clear()
-        
+    address = models.OneToOneField(Address,on_delete=models.CASCADE)
 class Vendor(models.Model):
-    user = models.OneToOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(get_user_model(),on_delete=models.CASCADE)
     
     #business information
     company_name = models.CharField(max_length=255)
@@ -122,19 +116,11 @@ class Vendor(models.Model):
     company_email = models.EmailField()
     company_phone_number = models.CharField(max_length=15)
     
-    
-    
-    
-    
-    
-    
-    
-    
-    # Order Fulfillment
-    orders_received = models.ManyToManyField(Order)
-    shipping_details = models.TextField()
+    # Payment and Invoicing
+    payment_history = models.TextField()
+    invoices = models.TextField()
     
     #store and brand information
-    store_logo = models.ImageField(upload_to="store_logos/")
     store_description = models.TextField()
     store_policies = models.TextField()
+    

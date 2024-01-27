@@ -13,7 +13,7 @@ class Product(Document):
     price = fields.DecimalField(required=True)
     specifications = fields.EmbeddedDocumentField(Specification)
     vendor_id = fields.StringField(required=True)  # Use ReferenceField
-
+    
     # Additional field for category-specific data for each new category in the website
     category_specific_field = fields.DictField()
     meta = {
