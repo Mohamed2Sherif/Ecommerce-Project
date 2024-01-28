@@ -1,6 +1,6 @@
 from django.shortcuts import render
 # from .models import Product, Specification
-# from mongodb_connection import *
+# from config.mongodb_connection import *
 
 # def add_product():
 #     product = Product(

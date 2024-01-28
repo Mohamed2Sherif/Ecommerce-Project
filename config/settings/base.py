@@ -12,21 +12,25 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+import json
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+DJANGO_ENV = os.environ.get('DJANGO_ENV', 'local').lower()
+SECRETS_FILE_PATH = os.path.join(BASE_DIR.parent, f'.envs/secrets_{DJANGO_ENV}.json')
 
+with open(SECRETS_FILE_PATH, 'r') as f:
+    secrets = json.load(f)
+    
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-n$fnv*qxmmo*fbvkb)f_y$khejwrm)jo=0vxcwhmy4%x+x%)b!"
-
+SECRET_KEY = secrets.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
+APPS_DIR = BASE_DIR.parent / "src"
 
 
 # Application definition
@@ -56,7 +60,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
-ROOT_URLCONF = "OLA_Store.urls"
+ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
@@ -74,7 +78,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "OLA_Store.wsgi.application"
+WSGI_APPLICATION = "config.wsgi.application"
 
 
 # Database
