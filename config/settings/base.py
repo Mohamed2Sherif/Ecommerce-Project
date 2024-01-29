@@ -13,14 +13,12 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 import os
 import json
-from decouple import config
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
-DJANGO_ENV = os.environ.get('DJANGO_ENV', 'local').lower()
-SECRETS_FILE_PATH = os.path.join(BASE_DIR.parent, f'.envs/secrets_{DJANGO_ENV}.json')
+BUILD_ENVIRONMENT = os.environ.get('BUILD_ENVIRONMENT', 'local').lower()
+SECRETS_FILE_PATH = os.path.join(BASE_DIR.parent, f'.envs/secrets_{BUILD_ENVIRONMENT}.json')
 
 with open(SECRETS_FILE_PATH, 'r') as f:
     secrets = json.load(f)
@@ -84,20 +82,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-DATABASES = {
-    # "default": {
-    #     "ENGINE": "django.db.backends.postgresql",
-    #     "NAME": "nhmmzdfx",
-    #     "USER": "nhmmzdfx",
-    #     "PASSWORD": "MSCDZtfeOJRoe-gLnbTzZ7kF0AT85xKA",
-    #     "HOST": "mel.db.elephantsql.com",
-    #     "port": "5432",
-    # }
-    "default": {
-        "ENGINE" : "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "sqlite3.db"
-    }
-}
+
 
 
 # Password validation
@@ -140,8 +125,3 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-MONGO_DB = os.environ.get('MONGO_DB')
-MONGO_DB_NAME = os.environ.get('MONGO_DB_NAME')
-MONGO_DB_HOST = os.environ.get('MONGO_DB_HOST')
-MONGO_DB_PORT = os.environ.get('MONGO_DB_PORT')
-MONGO_DB_CONNECTION_URL = os.environ.get('MONGO_DB_CONNECTION_URL')
