@@ -1,5 +1,5 @@
-FROM docker.io/python:3.11.7-slim-bookworm as python
-FROM docker.io/python as python-build-stage
+# Build Stage 1
+FROM docker.io/python:3.11.7-slim-bookworm as python-build-stage
 
 ARG BUILD_ENVIRONMENT=local
 
@@ -15,14 +15,14 @@ COPY ./requirements .
 RUN pip wheel --wheel-dir /usr/src/app/wheels  \
   -r ${BUILD_ENVIRONMENT}.txt
 
-# Python 'run' stage
-FROM docker.io/python as python-run-stage
+# Build Stage 2
+FROM docker.io/python:3.11.7-slim-bookworm as python-run-stage
+
+ARG BUILD_ENVIRONMENT=local
 
 ENV PYTHONUNBUFFERED 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV BUILD_ENV ${BUILD_ENVIRONMENT}
-
-ARG BUILD_ENVIRONMENT=local
 
 ARG APPHOME=/OLA
 
@@ -37,8 +37,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-
-COPY --from=python-build-stage /usr/src/app/wheels  /wheels/
+COPY --from=python-build-stage /usr/src/app/wheels /wheels/
 
 RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
   && rm -rf /wheels/
