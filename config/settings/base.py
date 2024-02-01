@@ -27,11 +27,13 @@ with open(SECRETS_FILE_PATH, 'r') as f:
 SECRET_KEY = secrets.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = []
+
 APPS_DIR = BASE_DIR.parent / "src"
 
 
 # Application definition
+DATABASES = {"default": secrets.get("DATABASE_URL")}
+DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 INSTALLED_APPS = [
     # thirdparty apps
@@ -62,19 +64,29 @@ ROOT_URLCONF = "config.urls"
 
 TEMPLATES = [
     {
+        # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        # https://docs.djangoproject.com/en/dev/ref/settings/#dirs
+        "DIRS": [str(APPS_DIR / "templates")],
+        # https://docs.djangoproject.com/en/dev/ref/settings/#app-dirs
         "APP_DIRS": True,
         "OPTIONS": {
+            # https://docs.djangoproject.com/en/dev/ref/settings/#template-context-processors
             "context_processors": [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
+                "django.template.context_processors.i18n",
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
+                "olastore.users.context_processors.allauth_settings",
             ],
         },
-    },
+    }
 ]
+
 
 WSGI_APPLICATION = "config.wsgi.application"
 

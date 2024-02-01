@@ -1,3 +1,7 @@
 venv
 .gitignore
 sqlite3.db
+.git
+.idea
+.github
+.gitattributes

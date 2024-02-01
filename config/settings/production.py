@@ -1,6 +1,6 @@
 from .base import *
 DEBUG = bool(secrets.get('DEBUG'))
-
+ALLOWED_HOSTS = []
 
 MONGO_DB = os.environ.get('MONGO_DB')
 MONGO_DB_NAME = os.environ.get('MONGO_DB_NAME')

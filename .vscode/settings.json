@@ -1,5 +1,6 @@
 {
     "workbench.colorTheme": "Dracula",
     "workbench.preferredDarkColorTheme": "Dracula At Night",
-    "terminal.integrated.tabs.defaultColor": null
+    "terminal.integrated.tabs.defaultColor": null,
+    "python.analysis.typeCheckingMode": "basic"
 }
