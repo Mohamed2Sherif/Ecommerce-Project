@@ -1,4 +1,7 @@
 version: "3"
+networks:
+  ola_network:
+    driver: bridge
 services:
   django: &django
     build:
@@ -12,7 +15,8 @@ services:
 
     volumes:
       - .:/app:z
-
+    networks:
+      - ola_network
     env_file : 
       - ./.envs/secrets_local.env
       - ./.envs/.postgres
@@ -28,6 +32,8 @@ services:
         - "5432:5432"
       env_file:
         - ./.envs/.postgres
+      networks:
+        - ola_network
       volumes:
         - postgres_data:/var/lib/postgresql/data
   mongo:
@@ -35,6 +41,8 @@ services:
     container_name: olastore_mongo_data
     env_file:
       - ./.envs/.mongo
+    networks:
+      - ola_network
     ports:
       - "27017:27017"
     volumes:

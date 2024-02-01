@@ -3,11 +3,10 @@
 import os
 import sys
 from pathlib import Path
-from config.settings.base import secrets
 def main():
     """Run administrative tasks."""
-    
-    if os.environ.get("BUILD_ENVIRONMENT")=="local" : 
+    BUILD_ENVIRONMENT = os.environ.get('BUILD_ENVIRONMENT', 'local').lower()
+    if  BUILD_ENVIRONMENT=="local" : 
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
     else : 
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
