@@ -1,0 +1,52 @@
+version: "3"
+networks:
+  ola_network:
+    driver: bridge
+services:
+  django: &django
+    build:
+      context: .
+      dockerfile : ./compose/local/django/Dockerfile
+    container_name: olastore-django
+    image: olastore-local-image
+    depends_on:
+      - postgresql
+      - mongo
+
+    volumes:
+      - .:/app:z
+    networks:
+      - ola_network
+    env_file : 
+      - ./.envs/secrets_local.env
+      - ./.envs/.postgres
+    ports:
+      - '8000:8000'
+
+    # command : ./compose/local/django/start
+
+  postgresql :
+      image: postgres:latest
+      container_name: olastore_postgres_data
+      ports:
+        - "5432:5432"
+      env_file:
+        - ./.envs/.postgres
+      networks:
+        - ola_network
+      volumes:
+        - postgres_data:/var/lib/postgresql/data
+  mongo:
+    image: mongo:latest
+    container_name: olastore_mongo_data
+    env_file:
+      - ./.envs/.mongo
+    networks:
+      - ola_network
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+volumes:
+    postgres_data:
+    mongodb_data:
