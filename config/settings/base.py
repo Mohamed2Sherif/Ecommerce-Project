@@ -35,6 +35,37 @@ DATABASES = {
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
+
+
+# Redis client instance
+redis_client = redis.StrictRedis(host=get_env_variable("REDIS_HOST"), port=get_env_variable("REDIS_PORT"), db=get_env_variable("REDIS_DB"))
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
+#not needed because we use shaed tasks
+# CELERY_BEAT_SCHEDULE = {
+# }
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+
+DJANGO_ELASTICSEARCH_DSL = {
+    'AUTO_REFRESH': True,
+}
+
+
 INSTALLED_APPS = [
     # Djanog built-in apps
     "django.contrib.admin",
@@ -53,6 +84,8 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "dj_rest_auth.registration",
+    'django_elasticsearch_dsl',
+    'django_celery_beat',
     # social auth apps
     "allauth.socialaccount",
     "allauth.socialaccount.providers.facebook",
