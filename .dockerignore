@@ -6,3 +6,4 @@ sqlite3.db
 .github
 .gitattributes
 .env
+staticfiles

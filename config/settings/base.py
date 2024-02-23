@@ -2,6 +2,8 @@ from pathlib import Path
 import os
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
+import redis
+from celery.schedules import crontab  
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -32,33 +34,53 @@ DATABASES = {
 }
 DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
+
 INSTALLED_APPS = [
-    # thirdparty apps
-    # local
-    "src.users",
-    "src.address",
-    "src.products",
-    "src.orders",
+    # Djanog built-in apps
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    # Third party apps
+    "django_celery_beat",
+    "corsheaders",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "dj_rest_auth",
+    "allauth",
+    "allauth.account",
+    "dj_rest_auth.registration",
+    # social auth apps
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.twitter",
+    # Local apps
+    "src.users",
+    "src.address",
+    "src.products",
+    "src.orders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
+    "django.middleware.cache.UpdateCacheMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "django.middleware.cache.FetchFromCacheMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "allauth.account.middleware.AccountMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
-
+AUTH_USER_MODEL = "src_users.User"
 TEMPLATES = [
     {
         # https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-TEMPLATES-BACKEND
@@ -109,10 +131,23 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    ),
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+}
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_COOKIE": "user_auth_cookie",
+    "JWT_AUTH_REFRESH_COOKIE": "user_refresh_token",
+    "JWT_AUTH_HTTPONLY": True,
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
-AUTH_USER_MODEL = "src_users.User"
+
 LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "UTC"
@@ -126,8 +161,64 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = "static/"
-
+STATIC_ROOT = str(BASE_DIR / "staticfiles")
+STATICFILES_DIRS = [str(APPS_DIR / "static")]
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+SITE_ID = 1
+
+# ADMIN
+# ------------------------------------------------------------------------------
+# Django Admin URL.
+ADMIN_URL = "admin/"
+# https://docs.djangoproject.com/en/dev/ref/settings/#admins
+ADMINS = [("""mohamed""", "mohamed@ola.com")]
+# https://docs.djangoproject.com/en/dev/ref/settings/#managers
+MANAGERS = ADMINS
+# Force the `admin` sign in process to go through the `django-allauth` workflow
+DJANGO_ADMIN_FORCE_ALLAUTH = get_env_variable("DJANGO_ADMIN_FORCE_ALLAUTH", False)
+
+
+# django-allauth and dj-rest-auth configuration
+# ------------------------------------------------------------------------------
+ACCOUNT_ALLOW_REGISTRATION = get_env_variable("DJANGO_ACCOUNT_ALLOW_REGISTRATION", True)
+# https://docs.allauth.org/en/latest/account/configuration.html
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+# https://docs.allauth.org/en/latest/account/configuration.html
+ACCOUNT_EMAIL_REQUIRED = True
+# https://docs.allauth.org/en/latest/account/configuration.html
+ACCOUNT_USERNAME_REQUIRED = True
+# https://docs.allauth.org/en/latest/account/configuration.html
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+OLD_PASSWORD_FIELD_ENABLED = True
+ACCOUNT_ADAPTER = "src.users.auth.adapter.CustomAccountAdapter"
+
+OTP_EXPIRE_AFTER = 5
+
+# Caching
+REDIS_HOST = get_env_variable("REDIS_HOST")
+REDIS_PORT = get_env_variable("REDIS_PORT")
+
+# CACHES = {
+#     "default": {
+#         "BACKEND": "django_redis.cache.RedisCache",
+#         "LOCATION": "redis://127.0.0.1:6379/1",  #Redis server location
+#         "OPTIONS": {
+#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
+#         },
+#     }
+# }
+CELERY_BEAT_SCHEDULE = {
+    'delete_expired_otps': {
+        'task': 'src.users.auth.utils.delete_expired_otps',
+        'schedule': crontab(minute=0, hour=0),
+    },
+}

@@ -1,0 +1,5 @@
+Hi {{ user.username }},
+
+Your OTP for email confirmation is: {{ otp }}
+
+Thank you.

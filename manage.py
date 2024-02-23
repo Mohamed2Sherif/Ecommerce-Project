@@ -19,10 +19,10 @@ def main():
             "available on your PYTHONPATH environment variable? Did you "
             "forget to activate a virtual environment?"
         ) from exc
-    # # This allows easy placement of apps within the interior
-    # # olastore directory.
-    # current_path = Path(__file__).parent.resolve()
-    # sys.path.append(str(current_path / "src"))
+    # This allows easy placement of apps within the interior
+    # src directory.
+    current_path = Path(__file__).parent.resolve()
+    sys.path.append(str(current_path / "src"))
 
     execute_from_command_line(sys.argv)
 if __name__ == "__main__":

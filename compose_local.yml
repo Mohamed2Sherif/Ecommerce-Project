@@ -11,7 +11,7 @@ services:
     image: olastore-local-image
     depends_on:
       - postgresql
-      - mongo
+      - redis
 
     volumes:
       - .:/app:z
@@ -20,10 +20,12 @@ services:
     env_file : 
       - ./.envs/secrets_local.env
       - ./.envs/.postgres
+      - ./.envs/.django
+
     ports:
       - '8000:8000'
 
-    # command : ./compose/local/django/start
+    command : /start
 
   postgresql :
       image: postgres:latest
@@ -36,17 +38,17 @@ services:
         - ola_network
       volumes:
         - postgres_data:/var/lib/postgresql/data
-  mongo:
-    image: mongo:latest
-    container_name: olastore_mongo_data
+  redis:
+    image: "redis:latest"
     env_file:
-      - ./.envs/.mongo
+    - ./.envs/.redis
+    container_name: ola_store_reids_container
     networks:
-      - ola_network
+    - ola_network
     ports:
-      - "27017:27017"
+      - "6379:6379"
     volumes:
-      - mongodb_data:/data/db
+      - redis_data:/data
 volumes:
     postgres_data:
-    mongodb_data:
+    redis_data:

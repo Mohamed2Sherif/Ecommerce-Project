@@ -43,6 +43,10 @@ RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
   && rm -rf /wheels/
 
 EXPOSE 8000
+COPY ./compose/local/django/start.sh /start
+RUN sed -i 's/\r$//g' /start
+RUN chmod +x /start
+
 
 COPY . ${APPHOME}
 
