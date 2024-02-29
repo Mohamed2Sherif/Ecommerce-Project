@@ -46,10 +46,8 @@ CACHES = {
 }
 
 
-# Redis client instance
-redis_client = redis.StrictRedis(host=get_env_variable("REDIS_HOST"), port=get_env_variable("REDIS_PORT"), db=get_env_variable("REDIS_DB"))
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
+
 
 #not needed because we use shaed tasks
 # CELERY_BEAT_SCHEDULE = {
@@ -85,7 +83,6 @@ INSTALLED_APPS = [
     "allauth.account",
     "dj_rest_auth.registration",
     'django_elasticsearch_dsl',
-    'django_celery_beat',
     # social auth apps
     "allauth.socialaccount",
     "allauth.socialaccount.providers.facebook",
@@ -249,6 +246,9 @@ REDIS_PORT = get_env_variable("REDIS_PORT")
 #         },
 #     }
 # }
+CELERY_BROKER_URL = get_env_variable("CELERY_BROKER_URL")
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
 CELERY_BEAT_SCHEDULE = {
     'delete_expired_otps': {
         'task': 'src.users.auth.utils.delete_expired_otps',
