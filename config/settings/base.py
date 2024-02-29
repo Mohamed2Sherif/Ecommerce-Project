@@ -2,9 +2,8 @@ from pathlib import Path
 import os
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
-import redis
 from celery.schedules import crontab  
-
+from django.middleware.cache import CacheMiddleware
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -38,29 +37,11 @@ DATABASES["default"]["ATOMIC_REQUESTS"] = True
 CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://127.0.0.1:6379/1',
+        'LOCATION': 'redis://redis:6379/1',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
         }
     }
-}
-
-
-
-
-
-#not needed because we use shaed tasks
-# CELERY_BEAT_SCHEDULE = {
-# }
-
-ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
-}
-
-DJANGO_ELASTICSEARCH_DSL = {
-    'AUTO_REFRESH': True,
 }
 
 
@@ -232,20 +213,9 @@ OLD_PASSWORD_FIELD_ENABLED = True
 ACCOUNT_ADAPTER = "src.users.auth.adapter.CustomAccountAdapter"
 
 OTP_EXPIRE_AFTER = 5
+#----------------------------------------------------------------
+#celery settings
 
-# Caching
-REDIS_HOST = get_env_variable("REDIS_HOST")
-REDIS_PORT = get_env_variable("REDIS_PORT")
-
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",  #Redis server location
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         },
-#     }
-# }
 CELERY_BROKER_URL = get_env_variable("CELERY_BROKER_URL")
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
@@ -254,4 +224,15 @@ CELERY_BEAT_SCHEDULE = {
         'task': 'src.users.auth.utils.delete_expired_otps',
         'schedule': crontab(minute=0, hour=0),
     },
+}
+
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+
+DJANGO_ELASTICSEARCH_DSL = {
+    'AUTO_REFRESH': True,
 }
