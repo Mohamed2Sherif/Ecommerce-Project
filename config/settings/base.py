@@ -223,7 +223,7 @@ CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BEAT_SCHEDULE = {
     'delete_expired_otps': {
         'task': 'src.users.auth.utils.delete_expired_otps',
-        'schedule': crontab(minute=0, hour=0),
+        'schedule': crontab(minute=0, hour=0),# type: ignore
     },
 }
 
