@@ -1,8 +1,10 @@
 from django.urls import path
-from .api.views import *
+from src.products.api import views
+from src.products.Services.PRepository import ProductRepository
+from src.products.Services.PServices import ProductService  
 
-urlpatterns =[
-    path('products/', list_products, name='list_products'),
-    path('products/create/', create_product, name='create_product'),
-    path('products/<int:product_id>/', product_detail, name='product_detail'),
+product_service = ProductService(ProductRepository())
+
+urlpatterns= [
+    path('products/', views.ProductsList.as_view(productService=product_service), name='list_products'),
 ]

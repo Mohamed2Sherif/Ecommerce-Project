@@ -4,7 +4,7 @@ from utils.models import BaseModel
 class Product(BaseModel):
     id = models.BigAutoField(primary_key=True,db_index=True)
     product_info = models.JSONField(default=dict)
-
+    category_info = models.JSONField(default=dict)
     class Meta:
         verbose_name = "product"
         verbose_name_plural = "products"
