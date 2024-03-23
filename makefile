@@ -9,7 +9,7 @@ COMPOSE_FILE := compose_local.yml
 run: start logs
 
 start:
-	@docker-compose -f $(COMPOSE_FILE) up -d
+	@docker-compose -f $(COMPOSE_FILE) up -d --build
 
 stop:
 	@docker-compose -f $(COMPOSE_FILE) down

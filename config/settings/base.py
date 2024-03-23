@@ -31,7 +31,7 @@ APPS_DIR = BASE_DIR / "src"
 DATABASES = {
     "default": dj_database_url.config(default=get_env_variable("DATABASE_URL"))
 }
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
+# DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
 CACHES = {
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third party apps
+    'adrf',
     'django_json_widget',
     "django_celery_beat",
     "corsheaders",
