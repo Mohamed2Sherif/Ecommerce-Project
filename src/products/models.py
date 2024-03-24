@@ -2,7 +2,7 @@ from django.db import models
 from utils.models import BaseModel
 import uuid
 class Product(BaseModel):
-    id = models.UUIDField(default=uuid.uuid4(),primary_key=True,db_index=True,editable=False)
+    id = models.UUIDField(default=uuid.uuid4,primary_key=True,db_index=True,editable=False)
     product_info = models.JSONField(default=dict)
     category_info = models.JSONField(default=dict)
     class Meta:

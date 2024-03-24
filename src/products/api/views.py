@@ -27,9 +27,9 @@ class ProductsList(APIView):
             )
             return Response({"product": product}, status=status.HTTP_201_CREATED)
 
-        except ValueError:
+        except ValueError as e:
             return Response(
-                "error happend while creating the product",
+                e.args,
                 status=status.HTTP_400_BAD_REQUEST,
             )
         except ValidationError as e:
