@@ -12,6 +12,15 @@ class ProductSerializer(async_serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "Product_info must contain a name attribute"
             )
+        if "price" not in value:
+            raise serializers.ValidationError(
+                "product information must contain a price attribute"
+            )
+        if "qty" not in value:
+            raise serializers.ValidationError(
+                "product information must contain a quantity attribute"
+            )
+            
         return value
 
     class Meta:

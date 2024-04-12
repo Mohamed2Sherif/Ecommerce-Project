@@ -1,7 +1,5 @@
 from src.address.models import Address
 from django.conf import settings
-from src.orders.models import Order
-from src.products.models import Product
 from django.db import models
 
 class PaymentInformation(models.Model):
