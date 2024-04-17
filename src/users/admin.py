@@ -1,4 +1,6 @@
 from django.contrib import admin
+
+from src.users.userprofiles import Customer
 from .models import User
 from .auth.models import Otp
 
@@ -17,3 +19,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Otp)
 class OtpAdmin(admin.ModelAdmin):
     list_display = ["email","valid_untill"]
+    
+@admin.register(Customer)
+class CustomerAdmin(admin.ModelAdmin):
+    fields = ['user','address','paymentInformation',]

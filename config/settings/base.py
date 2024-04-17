@@ -2,9 +2,8 @@ from pathlib import Path
 import os
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
-import redis
 from celery.schedules import crontab  
-
+from django.middleware.cache import CacheMiddleware
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -32,9 +31,19 @@ APPS_DIR = BASE_DIR / "src"
 DATABASES = {
     "default": dj_database_url.config(default=get_env_variable("DATABASE_URL"))
 }
-DATABASES["default"]["ATOMIC_REQUESTS"] = True
+# DATABASES["default"]["ATOMIC_REQUESTS"] = True
 
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/1',
+        'TIMEOUT': 60 * 15,
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
 INSTALLED_APPS = [
     # Djanog built-in apps
     "django.contrib.admin",
@@ -45,6 +54,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third party apps
+    'adrf',
+    'django_json_widget',
     "django_celery_beat",
     "corsheaders",
     "rest_framework",
@@ -53,6 +64,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "dj_rest_auth.registration",
+    'django_elasticsearch_dsl',
     # social auth apps
     "allauth.socialaccount",
     "allauth.socialaccount.providers.facebook",
@@ -67,6 +79,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "src.middleware.ScopeMiddleWare",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.cache.UpdateCacheMiddleware",
@@ -202,23 +215,26 @@ OLD_PASSWORD_FIELD_ENABLED = True
 ACCOUNT_ADAPTER = "src.users.auth.adapter.CustomAccountAdapter"
 
 OTP_EXPIRE_AFTER = 5
+#----------------------------------------------------------------
+#celery settings
 
-# Caching
-REDIS_HOST = get_env_variable("REDIS_HOST")
-REDIS_PORT = get_env_variable("REDIS_PORT")
+CELERY_BROKER_URL = get_env_variable("CELERY_BROKER_URL")
+CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
-# CACHES = {
-#     "default": {
-#         "BACKEND": "django_redis.cache.RedisCache",
-#         "LOCATION": "redis://127.0.0.1:6379/1",  #Redis server location
-#         "OPTIONS": {
-#             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-#         },
-#     }
-# }
 CELERY_BEAT_SCHEDULE = {
     'delete_expired_otps': {
         'task': 'src.users.auth.utils.delete_expired_otps',
-        'schedule': crontab(minute=0, hour=0),
+        'schedule': crontab(minute=0, hour=0),# type: ignore
     },
+}
+
+
+ELASTICSEARCH_DSL = {
+    'default': {
+        'hosts': 'localhost:9200'
+    },
+}
+
+DJANGO_ELASTICSEARCH_DSL = {
+    'AUTO_REFRESH': True,
 }

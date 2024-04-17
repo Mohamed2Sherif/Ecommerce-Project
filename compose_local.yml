@@ -49,6 +49,30 @@ services:
       - "6379:6379"
     volumes:
       - redis_data:/data
+  rabbitmq:
+    image: rabbitmq:management
+    container_name : ola_store_rabbitmq_container
+    networks:
+      - ola_network
+    ports:
+      - "5672:5672"  # RabbitMQ messaging port
+      - "15672:15672"  # RabbitMQ management UI port
+    env_file:
+      - ./.envs/.rabbitmq
+
+  celeryworker:
+    <<: *django
+    image: olastore_local_celeryworker
+    container_name: olastore_local_celeryworker
+    networks:
+      - ola_network
+    depends_on:
+      - rabbitmq
+      - postgresql
+    ports: []
+    command: /start-celeryworker
+
+
 volumes:
     postgres_data:
     redis_data:
