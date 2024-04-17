@@ -1,4 +1,5 @@
 from uuid import UUID
+from antidote import inject,InjectMe
 from django.core.exceptions import ObjectDoesNotExist
 from adrf.views import APIView
 from rest_framework import status
@@ -8,9 +9,9 @@ from src.products.Services.contracts.IPService import IProductService
 
 
 class ProductsList(APIView):
-    product_service: IProductService = None  # type: ignore
 
-    def __init__(self, product_service: IProductService):
+    @inject
+    def __init__(self, product_service: InjectMe[IProductService] ):
         self.product_service = product_service
 
     async def get(self, request, *args, **kwargs):
@@ -37,9 +38,10 @@ class ProductsList(APIView):
 
 
 class UpdateDeleteProduct(APIView):
-    productservice: productservice = None  # type:ignore
 
-    def __init__(self, productservice: IProductService):
+
+    @inject
+    def __init__(self, productservice: InjectMe[IProductService]):
         self.productservice = productservice
 
     async def post(self, request, id: UUID):

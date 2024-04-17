@@ -1,9 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Dict, List
 
+from antidote import injectable, interface
+
 from src.products.models import Product
 
-
+@interface
+@injectable(lifetime='scoped')
 class IProductService(ABC):
     @abstractmethod
     async def createProductService(self, request_data) -> Dict:

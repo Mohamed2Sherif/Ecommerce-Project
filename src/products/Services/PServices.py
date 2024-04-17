@@ -1,5 +1,6 @@
 from typing import Dict, List
 from uuid import UUID
+from antidote import implements, inject,InjectMe
 from django.db import IntegrityError
 from src.products.Services.contracts.IPRepository import IProductRepository
 from src.products.Services.contracts.IPService import IProductService
@@ -8,9 +9,12 @@ from src.products.models import Product
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.exceptions import ValidationError
 from django.core.cache import cache
+
+@implements(IProductService)
 class ProductService(IProductService):
 
-    def __init__(self, product_repository: IProductRepository = None):  # type: ignore
+    @inject
+    def __init__(self, product_repository: InjectMe[IProductRepository]):  # type: ignore
         self.repository = product_repository
 
     async def createProductService(self, request_data):

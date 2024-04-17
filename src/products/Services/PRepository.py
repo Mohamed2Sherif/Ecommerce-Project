@@ -1,5 +1,6 @@
 from typing import Dict, List, Optional
 from uuid import UUID
+from antidote import implements
 from asgiref.sync import sync_to_async
 from celery import shared_task
 from src.products.api.serializers import ProductSerializer
@@ -7,7 +8,7 @@ from src.products.models import Product
 from src.products.Services.contracts.IPRepository import IProductRepository
 from django.core.exceptions import ObjectDoesNotExist
 
-
+@implements(IProductRepository)
 class ProductRepository(IProductRepository):
 
     async def get_object_by_id(self, product_id: UUID) -> Product:

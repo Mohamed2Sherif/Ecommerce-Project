@@ -1,19 +1,22 @@
+from src.address.models import Address
 from src.orders.Services.contracts.IOrderService import IOrderService
 from src.orders.api.serializers import OrderSerializer
-
 from rest_framework.serializers import ValidationError
+from antidote import implements, injectable
+
+@implements(IOrderService)
+@injectable
 class OrderService(IOrderService):
         
-    async def createOrder(self,order_data):
+    async def createOrder(self,user,order_data):
         serializer = OrderSerializer(data=order_data)
-        try:
+        try :
             if serializer.is_valid(raise_exception=True):
-                await serializer.asave() # type: ignore
-                data = await serializer.adata # type: ignore
+                await serializer.asave(User=user)
+                data = await serializer.adata
                 return data
-        except ValidationError as e:
+        except ValidationError:
             raise ValidationError(serializer.errors)
-        
     async def getOrder(self, order_id):
         return ("you should implement getOrder Method")
 
