@@ -1,8 +1,8 @@
 from uuid import UUID
 from antidote import inject,InjectMe
 from django.core.exceptions import ObjectDoesNotExist
-from adrf.views import APIView
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from src.products.Services.contracts.IPService import IProductService
@@ -14,16 +14,16 @@ class ProductsList(APIView):
     def __init__(self, product_service: InjectMe[IProductService] ):
         self.product_service = product_service
 
-    async def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         try:
-            products = await self.product_service.getAllProductsService()
+            products =  self.product_service.getAllProductsService()
             return Response({"products": products}, status=status.HTTP_200_OK)
         except ValueError as e:
             return Response(e.args[0], status=status.HTTP_400_BAD_REQUEST)
 
-    async def post(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         try:
-            product = await self.product_service.createProductService(
+            product = self.product_service.createProductService(
                 request_data=request.data
             )
             return Response({"product": product}, status=status.HTTP_201_CREATED)
@@ -44,25 +44,26 @@ class UpdateDeleteProduct(APIView):
     def __init__(self, productservice: InjectMe[IProductService]):
         self.productservice = productservice
 
-    async def post(self, request, id: UUID):
+    
+    def post(self, request, id: UUID):
         try:
-            await self.productservice.updateProductService(
+            self.productservice.updateProductService(
                 product_id=id, data=request.data
             )
             return Response(status=status.HTTP_200_OK)
         except (ObjectDoesNotExist, ValidationError) as e:
             return Response(e.args, status=status.HTTP_400_BAD_REQUEST)
 
-    async def get(self, request, id: UUID):
+    def get(self, request, id: UUID):
         try:
-            product = await self.productservice.getProductService(product_id=id)
+            product = self.productservice.getProductService(product_id=id)
             return Response(product)
         except (ObjectDoesNotExist, ValidationError) as e:
             return Response(e.args, status=status.HTTP_400_BAD_REQUEST)
 
-    async def delete(self, request, id: UUID):
+    def delete(self, request, id: UUID):
         try:
-            deleted = await self.productservice.deleteProductService(product_id=id)
+            deleted = self.productservice.deleteProductService(product_id=id)
             if deleted:
                 return Response(status=status.HTTP_200_OK)
             return Response(status=status.HTTP_400_BAD_REQUEST)

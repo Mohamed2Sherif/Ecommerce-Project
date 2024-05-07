@@ -1,0 +1,27 @@
+name: Dependabot auto-approve
+on:
+  pull_request:
+    branches:
+      - '*'
+
+permissions:
+  pull-requests: write
+
+jobs:
+  dependabot:
+    runs-on: ubuntu-latest
+    if: github.actor == 'dependabot[bot]'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Dependabot metadata
+        id: metadata
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Approve a PR
+        run: gh pr review --approve ${{ github.event.pull_request.number }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
