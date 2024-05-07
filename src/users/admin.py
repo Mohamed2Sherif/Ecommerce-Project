@@ -4,6 +4,7 @@ from src.users.userprofiles import Customer
 from .models import User
 from .auth.models import Otp
 
+
 # Register your models here.
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -14,12 +15,16 @@ class UserAdmin(admin.ModelAdmin):
     ordering = ["is_active", "email"]
 
 
-
 # Register your models here.
 @admin.register(Otp)
 class OtpAdmin(admin.ModelAdmin):
-    list_display = ["email","valid_untill"]
-    
+    list_display = ["email", "valid_untill"]
+
+
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
-    fields = ['user','address','paymentInformation',]
+    fields = [
+        "user",
+        "address",
+        "paymentInformation",
+    ]

@@ -5,23 +5,42 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('src_address', '0002_initial'),
-        ('src_products', '0001_initial'),
-        ('src_users', '0010_vendor_paymentinformation_customer'),
+        ("src_address", "0002_initial"),
+        ("src_products", "0001_initial"),
+        ("src_users", "0010_vendor_paymentinformation_customer"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Order',
+            name="Order",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('Address', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='src_address.address')),
-                ('Products', models.ManyToManyField(to='src_products.product')),
-                ('User', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='src_users.customer')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "Address",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="src_address.address",
+                    ),
+                ),
+                ("Products", models.ManyToManyField(to="src_products.product")),
+                (
+                    "User",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="src_users.customer",
+                    ),
+                ),
             ],
         ),
     ]

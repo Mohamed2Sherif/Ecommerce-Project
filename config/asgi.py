@@ -16,10 +16,10 @@ from django.core.asgi import get_asgi_application
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 sys.path.append(str(BASE_DIR / "src"))
 
-BUILD_ENVIRONMENT = os.environ.get('BUILD_ENVIRONMENT', 'local').lower()
-if  BUILD_ENVIRONMENT=="local" : 
+BUILD_ENVIRONMENT = os.environ.get("BUILD_ENVIRONMENT", "local").lower()
+if BUILD_ENVIRONMENT == "local":
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
-else : 
+else:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 
 application = get_asgi_application()

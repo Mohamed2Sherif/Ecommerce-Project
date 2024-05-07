@@ -7,7 +7,8 @@ from django.core.cache import cache
 @receiver([post_save, post_delete], sender=Product)
 def update_product_cache(sender, instance, **kwargs):
     # Invalidate product cache
-    cache.delete('product_list')
+    cache.delete("product_list")
+
 
 # @receiver(post_save, sender=Product)
 # def create_product_signal(sender, instance, created, **kwargs):
