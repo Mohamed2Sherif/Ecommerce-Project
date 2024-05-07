@@ -1,9 +1,8 @@
-from adrf import serializers as async_serializers
-from ..models import Product
 from rest_framework import serializers
+from ..models import Product
 
 
-class ProductSerializer(async_serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
 
     def validate_product_info(self, value):

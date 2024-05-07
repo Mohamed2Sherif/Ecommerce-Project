@@ -1,12 +1,12 @@
-from .base import get_env_variable, MIDDLEWARE
+from .base import *  # noqa:F403
 
 # mongodb env variables
-MONGO_DB = get_env_variable("MONGO_DB")
-MONGO_DB_NAME = get_env_variable("MONGO_DB_NAME")
-MONGO_DB_HOST = get_env_variable("MONGO_DB_HOST")
-MONGO_DB_PORT = get_env_variable("MONGO_DB_PORT")
-MONGO_DB_CONNECTION_URL = get_env_variable("MONGO_DB_CONNECTION_URL")
-MIDDLEWARE += [
+MONGO_DB = get_env_variable("MONGO_DB")  # noqa: F405
+MONGO_DB_NAME = get_env_variable("MONGO_DB_NAME")  # noqa:F405
+MONGO_DB_HOST = get_env_variable("MONGO_DB_HOST")  # noqa:F405
+MONGO_DB_PORT = get_env_variable("MONGO_DB_PORT")  # noqa:F405
+MONGO_DB_CONNECTION_URL = get_env_variable("MONGO_DB_CONNECTION_URL")  # noqa:F405
+MIDDLEWARE += [  # noqa:F405
     "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 

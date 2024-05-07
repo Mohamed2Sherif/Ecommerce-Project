@@ -1,4 +1,4 @@
-from .base import get_env_variable
+from .base import *  # noqa:F403
 
-DEBUG = bool(get_env_variable("DEBUG"))
-ALLOWED_HOSTS = []
+DEBUG = bool(get_env_variable("DEBUG"))  # noqa:F405
+ALLOWED_HOSTS = []  # noqa:F403
