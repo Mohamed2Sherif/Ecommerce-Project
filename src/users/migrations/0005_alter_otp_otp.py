@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('src_users', '0004_alter_otp_email'),
+        ("src_users", "0004_alter_otp_email"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='otp',
-            name='otp',
+            model_name="otp",
+            name="otp",
             field=models.CharField(),
         ),
     ]

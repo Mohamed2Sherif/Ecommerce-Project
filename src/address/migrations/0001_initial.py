@@ -5,24 +5,43 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Address',
+            name="Address",
             fields=[
-                ('address_ID', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('effective_date', models.DateField()),
-                ('address_type', models.CharField(choices=[('billing', 'Billing'), ('home', 'Home'), ('office', 'Office')], max_length=20)),
-                ('address_line_1', models.CharField(max_length=255)),
-                ('address_line_2', models.CharField(blank=True, max_length=255, null=True)),
-                ('city', models.CharField(max_length=100)),
-                ('country', models.CharField(max_length=100)),
-                ('zip_code', models.CharField(max_length=20)),
+                (
+                    "address_ID",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("effective_date", models.DateField()),
+                (
+                    "address_type",
+                    models.CharField(
+                        choices=[
+                            ("billing", "Billing"),
+                            ("home", "Home"),
+                            ("office", "Office"),
+                        ],
+                        max_length=20,
+                    ),
+                ),
+                ("address_line_1", models.CharField(max_length=255)),
+                (
+                    "address_line_2",
+                    models.CharField(blank=True, max_length=255, null=True),
+                ),
+                ("city", models.CharField(max_length=100)),
+                ("country", models.CharField(max_length=100)),
+                ("zip_code", models.CharField(max_length=20)),
             ],
         ),
     ]

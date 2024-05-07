@@ -1,14 +1,17 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
+
 import os
 import sys
 from pathlib import Path
+
+
 def main():
     """Run administrative tasks."""
-    BUILD_ENVIRONMENT = os.environ.get('BUILD_ENVIRONMENT', 'local').lower()
-    if  BUILD_ENVIRONMENT=="local" : 
+    BUILD_ENVIRONMENT = os.environ.get("BUILD_ENVIRONMENT", "local").lower()
+    if BUILD_ENVIRONMENT == "local":
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.local")
-    else : 
+    else:
         os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.production")
 
     try:
@@ -25,5 +28,7 @@ def main():
     sys.path.append(str(current_path / "src"))
 
     execute_from_command_line(sys.argv)
+
+
 if __name__ == "__main__":
     main()

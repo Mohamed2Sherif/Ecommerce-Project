@@ -9,7 +9,6 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.http import Http404
 
 
-
 class UserManager(BaseUserManager):
     def get_user(self, public_id):
         try:
@@ -69,7 +68,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = UserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
@@ -80,4 +79,3 @@ class User(AbstractBaseUser, PermissionsMixin):
         return f"{self.first_name} {self.last_name}"
 
     # TODO: Create the save method for user model and hash the important user fields
-

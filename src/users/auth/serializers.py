@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from dj_rest_auth.registration.serializers import RegisterSerializer,VerifyEmailSerializer
-from dj_rest_auth.serializers import JWTSerializer
+from dj_rest_auth.registration.serializers import RegisterSerializer
+
 
 class CustomVerifyEmailSerializer(serializers.Serializer):
     otp = serializers.CharField(write_only=True)
@@ -19,4 +19,3 @@ class CustomRegisterSerializer(RegisterSerializer):
             "first_name": self.validated_data.get("first_name", ""),
             "last_name": self.validated_data.get("last_name", ""),
         }
-

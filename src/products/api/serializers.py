@@ -1,7 +1,6 @@
 from adrf import serializers as async_serializers
 from ..models import Product
 from rest_framework import serializers
-import uuid
 
 
 class ProductSerializer(async_serializers.ModelSerializer):
@@ -20,7 +19,7 @@ class ProductSerializer(async_serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "product information must contain a quantity attribute"
             )
-            
+
         return value
 
     class Meta:

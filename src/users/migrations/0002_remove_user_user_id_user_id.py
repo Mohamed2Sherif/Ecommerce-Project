@@ -5,19 +5,25 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('src_users', '0001_initial'),
+        ("src_users", "0001_initial"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='user',
-            name='user_id',
+            model_name="user",
+            name="user_id",
         ),
         migrations.AddField(
-            model_name='user',
-            name='id',
-            field=models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, primary_key=True, serialize=False, unique=True),
+            model_name="user",
+            name="id",
+            field=models.UUIDField(
+                db_index=True,
+                default=uuid.uuid4,
+                editable=False,
+                primary_key=True,
+                serialize=False,
+                unique=True,
+            ),
         ),
     ]

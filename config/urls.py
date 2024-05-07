@@ -41,5 +41,5 @@ urlpatterns = [
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
     path("product/", include("src.products.urls")),
-    path('orders/',include("src.orders.urls"))
+    path("orders/", include("src.orders.urls")),
 ]

@@ -4,19 +4,26 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('src_users', '0002_remove_user_user_id_user_id'),
+        ("src_users", "0002_remove_user_user_id_user_id"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Otp',
+            name="Otp",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('otp', models.CharField(max_length=10)),
-                ('email', models.EmailField(max_length=254)),
-                ('valid_untill', models.DateTimeField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("otp", models.CharField(max_length=10)),
+                ("email", models.EmailField(max_length=254)),
+                ("valid_untill", models.DateTimeField()),
             ],
         ),
     ]

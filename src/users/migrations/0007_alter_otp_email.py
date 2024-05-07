@@ -5,16 +5,17 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('account', '0005_emailaddress_idx_upper_email'),
-        ('src_users', '0006_alter_otp_email'),
+        ("account", "0005_emailaddress_idx_upper_email"),
+        ("src_users", "0006_alter_otp_email"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='otp',
-            name='email',
-            field=models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='account.emailaddress'),
+            model_name="otp",
+            name="email",
+            field=models.OneToOneField(
+                on_delete=django.db.models.deletion.CASCADE, to="account.emailaddress"
+            ),
         ),
     ]

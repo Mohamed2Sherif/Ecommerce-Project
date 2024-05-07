@@ -2,8 +2,8 @@ from pathlib import Path
 import os
 import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
-from celery.schedules import crontab  
-from django.middleware.cache import CacheMiddleware
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
@@ -35,13 +35,13 @@ DATABASES = {
 
 
 CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
-        'TIMEOUT': 60 * 15,
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://redis:6379/1",
+        "TIMEOUT": 60 * 15,
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        },
     }
 }
 INSTALLED_APPS = [
@@ -54,8 +54,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third party apps
-    'adrf',
-    'django_json_widget',
+    "adrf",
+    "django_json_widget",
     "django_celery_beat",
     "corsheaders",
     "rest_framework",
@@ -64,7 +64,7 @@ INSTALLED_APPS = [
     "allauth",
     "allauth.account",
     "dj_rest_auth.registration",
-    'django_elasticsearch_dsl',
+    "django_elasticsearch_dsl",
     # social auth apps
     "allauth.socialaccount",
     "allauth.socialaccount.providers.facebook",
@@ -145,11 +145,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework.authentication.TokenAuthentication',
-        'dj_rest_auth.jwt_auth.JWTCookieAuthentication'
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+        "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),
-    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
 }
 REST_AUTH = {
     "USE_JWT": True,
@@ -215,26 +215,24 @@ OLD_PASSWORD_FIELD_ENABLED = True
 ACCOUNT_ADAPTER = "src.users.auth.adapter.CustomAccountAdapter"
 
 OTP_EXPIRE_AFTER = 5
-#----------------------------------------------------------------
-#celery settings
+# ----------------------------------------------------------------
+# celery settings
 
 CELERY_BROKER_URL = get_env_variable("CELERY_BROKER_URL")
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
 CELERY_BEAT_SCHEDULE = {
-    'delete_expired_otps': {
-        'task': 'src.users.auth.utils.delete_expired_otps',
-        'schedule': crontab(minute=0, hour=0),# type: ignore
+    "delete_expired_otps": {
+        "task": "src.users.auth.utils.delete_expired_otps",
+        "schedule": crontab(minute=0, hour=0),  # type: ignore
     },
 }
 
 
 ELASTICSEARCH_DSL = {
-    'default': {
-        'hosts': 'localhost:9200'
-    },
+    "default": {"hosts": "localhost:9200"},
 }
 
 DJANGO_ELASTICSEARCH_DSL = {
-    'AUTO_REFRESH': True,
+    "AUTO_REFRESH": True,
 }

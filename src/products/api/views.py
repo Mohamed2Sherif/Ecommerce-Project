@@ -1,5 +1,5 @@
 from uuid import UUID
-from antidote import inject,InjectMe
+from antidote import inject, InjectMe
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework import status
 from rest_framework.views import APIView
@@ -9,14 +9,13 @@ from src.products.Services.contracts.IPService import IProductService
 
 
 class ProductsList(APIView):
-
     @inject
-    def __init__(self, product_service: InjectMe[IProductService] ):
+    def __init__(self, product_service: InjectMe[IProductService]):
         self.product_service = product_service
 
     def get(self, request, *args, **kwargs):
         try:
-            products =  self.product_service.getAllProductsService()
+            products = self.product_service.getAllProductsService()
             return Response({"products": products}, status=status.HTTP_200_OK)
         except ValueError as e:
             return Response(e.args[0], status=status.HTTP_400_BAD_REQUEST)
@@ -38,18 +37,13 @@ class ProductsList(APIView):
 
 
 class UpdateDeleteProduct(APIView):
-
-
     @inject
     def __init__(self, productservice: InjectMe[IProductService]):
         self.productservice = productservice
 
-    
     def post(self, request, id: UUID):
         try:
-            self.productservice.updateProductService(
-                product_id=id, data=request.data
-            )
+            self.productservice.updateProductService(product_id=id, data=request.data)
             return Response(status=status.HTTP_200_OK)
         except (ObjectDoesNotExist, ValidationError) as e:
             return Response(e.args, status=status.HTTP_400_BAD_REQUEST)

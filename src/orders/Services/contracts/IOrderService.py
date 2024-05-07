@@ -1,10 +1,9 @@
-from abc import ABC, abstractmethod
 from antidote import interface
 
+
 @interface
-class IOrderService():
-    
-    async def createOrder(self,user, order_data):
+class IOrderService:
+    async def createOrder(self, user, order_data):
         raise NotImplementedError("you should implement createOrder Method")
 
     async def getOrder(self, order_id):

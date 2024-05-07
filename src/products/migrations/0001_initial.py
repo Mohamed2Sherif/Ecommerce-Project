@@ -5,26 +5,33 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('created_time', models.DateTimeField(auto_now_add=True)),
-                ('modified_time', models.DateTimeField(auto_now=True)),
-                ('id', models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('product_info', models.JSONField(default=dict)),
-                ('category_info', models.JSONField(default=dict)),
+                ("created_time", models.DateTimeField(auto_now_add=True)),
+                ("modified_time", models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        db_index=True,
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("product_info", models.JSONField(default=dict)),
+                ("category_info", models.JSONField(default=dict)),
             ],
             options={
-                'verbose_name': 'product',
-                'verbose_name_plural': 'products',
-                'db_table': 'products',
+                "verbose_name": "product",
+                "verbose_name_plural": "products",
+                "db_table": "products",
             },
         ),
     ]
