@@ -41,7 +41,7 @@ h11==0.13.0
 html5lib==1.1
 httpcore==0.14.5
 httplib2==0.20.2
-httpx==0.22.0
+httpx==0.23.0
 idna==3.3
 importlib-metadata==4.6.4
 iniconfig==1.1.1
