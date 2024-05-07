@@ -1,4 +1,4 @@
-from .base import *
+from .base import get_env_variable, MIDDLEWARE
 
 # mongodb env variables
 MONGO_DB = get_env_variable("MONGO_DB")

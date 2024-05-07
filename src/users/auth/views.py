@@ -28,7 +28,7 @@ class verify_otp_mail(VerifyEmailView):
             if not expired:
                 if not email_address.verified:
                     request.user.verified = True
-                    confirmed = get_adapter().confirm_email(request, email_address)
+                    get_adapter().confirm_email(request, email_address)
                 if email_address.verified:
                     signals.email_confirmed.send(
                         sender=self.__class__,
