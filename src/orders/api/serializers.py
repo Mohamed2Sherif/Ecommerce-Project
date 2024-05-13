@@ -1,8 +1,8 @@
-from adrf import serializers as async_serializers
+from rest_framework import serializers
 from src.orders.models import Order
 
 
-class OrderSerializer(async_serializers.ModelSerializer):
+class OrderSerializer(serializers.ModelSerializer):
     def validate_Products(self, value):
         pass
 

@@ -5,7 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from src.products.Services.contracts.IPService import IProductService
+from src.products.Services.IProductService import IProductService
 
 
 class ProductsList(APIView):

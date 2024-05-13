@@ -1,3 +1,4 @@
+from environ import Env
 from pathlib import Path
 import os
 import dj_database_url
@@ -6,6 +7,9 @@ from celery.schedules import crontab
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+env = Env()
+Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 
 # Quick-start development settings - unsuitable for production
@@ -54,7 +58,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.sites",
     # Third party apps
-    "adrf",
     "django_json_widget",
     "django_celery_beat",
     "corsheaders",
