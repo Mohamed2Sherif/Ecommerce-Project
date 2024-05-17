@@ -89,7 +89,7 @@ Pillow==10.3.0
 platformdirs==3.11.0
 pluggy==0.13.0
 prompt-toolkit==3.0.43
-protobuf==3.12.4
+protobuf==3.18.3
 psutil==5.9.0
 ptyprocess==0.7.0
 py==1.10.0
