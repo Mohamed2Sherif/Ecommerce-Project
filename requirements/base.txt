@@ -173,4 +173,4 @@ xdg==5
 xkit==0.0.0
 yt-dlp==2024.4.9
 ytmusicapi==1.5.2
-zipp==1.0.0
+zipp==3.18.2
