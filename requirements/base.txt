@@ -112,7 +112,7 @@ pyparsing==2.4.7
 pyRFC3339==1.1
 pytest==6.2.5
 pytest-cov==3.0.0
-pytest-forked==1.4.0
+pytest-forked==1.6.0
 pytest-sugar==0.9.4
 pytest-xdist==2.5.0
 python-apt==2.4.0+ubuntu3
