@@ -1,15 +1,12 @@
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from src.orders.Services.contracts.IOrderService import IOrderService
 from rest_framework.response import Response
-from antidote import inject, InjectMe
 
 
 class ListCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
-    @inject
-    def __init__(self, orderService: InjectMe[IOrderService]):  # type: ignore
+    def __init__(self, orderService):  # type: ignore
         self._orderService = orderService
 
     async def post(self, request, *args, **kwargs):

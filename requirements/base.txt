@@ -1,5 +1,4 @@
 amqp==5.2.0
-antidote==2.0.0
 asgiref==3.8.1
 async-timeout==4.0.3
 billiard==4.2.0
@@ -31,6 +30,7 @@ elastic-transport==8.13.0
 elasticsearch==8.13.1
 elasticsearch-dsl==8.13.1
 filelock==3.14.0
+h11==0.14.0
 identify==2.5.36
 idna==3.7
 kombu==5.3.7
@@ -52,7 +52,9 @@ sqlparse==0.5.0
 typing_extensions==4.11.0
 tzdata==2024.1
 urllib3==2.2.1
+uvicorn==0.29.0
 vine==5.1.0
 virtualenv==20.26.1
 wcwidth==0.2.13
 whitenoise==6.6.0
+pre-commit

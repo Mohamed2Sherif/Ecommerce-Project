@@ -41,7 +41,7 @@ DATABASES = {
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis:6379/1",
+        "LOCATION": "redis://localhost:6379/1",
         "TIMEOUT": 60 * 15,
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
@@ -59,7 +59,6 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     # Third party apps
     "django_json_widget",
-    "django_celery_beat",
     "corsheaders",
     "rest_framework",
     "rest_framework.authtoken",
@@ -82,7 +81,6 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "corsheaders.middleware.CorsMiddleware",
-    "src.middleware.ScopeMiddleWare",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.cache.UpdateCacheMiddleware",
@@ -123,6 +121,7 @@ TEMPLATES = [
 
 
 WSGI_APPLICATION = "config.wsgi.application"
+ASGI_APPLICATION = "config.asgi.application"
 
 
 # Database

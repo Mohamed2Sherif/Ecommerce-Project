@@ -27,7 +27,7 @@ urlpatterns = [
         name="password_reset_confirm",
     ),
     path("admin/", admin.site.urls),
-    path("products/", include("src.products.urls")),
+    path("api/", include("src.products.urls")),
     path(
         "dj-rest-auth/registration/verify-email/",
         auth_views.verify_otp_mail.as_view(),
@@ -40,6 +40,6 @@ urlpatterns = [
     ),
     path("dj-rest-auth/", include("dj_rest_auth.urls")),
     path("dj-rest-auth/registration/", include("dj_rest_auth.registration.urls")),
-    path("product/", include("src.products.urls")),
+    path("api/", include("src.products.urls")),
     path("orders/", include("src.orders.urls")),
 ]
