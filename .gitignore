@@ -66,6 +66,7 @@ target/
 celerybeat-schedule
 
 # Environments
+./storediagram.gif
 .venv
 venv/
 ENV/
@@ -280,3 +281,4 @@ olastore/media/
 .env
 .envs/*
 !.envs/.local/
+storediagram.gif

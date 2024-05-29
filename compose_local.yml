@@ -1,14 +1,14 @@
 version: "3"
 networks:
-  ola_network:
+  store_network:
     driver: bridge
 services:
   django: &django
     build:
       context: .
       dockerfile : ./compose/local/django/Dockerfile
-    container_name: olastore-django
-    image: olastore-local-image
+    container_name: store-django
+    image: store-local-image
     depends_on:
       - postgresql
       - redis
@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/app:z
     networks:
-      - ola_network
+      - store_network
     env_file : 
       - ./.envs/secrets_local.env
       - ./.envs/.postgres
@@ -28,46 +28,37 @@ services:
     command : /start
 
   postgresql :
-      image: postgres:latest
-      container_name: olastore_postgres_data
+      image: postgres:alpine
+      container_name: store_postgresDatabase
       ports:
         - "5432:5432"
       env_file:
         - ./.envs/.postgres
       networks:
-        - ola_network
+        - store_network
       volumes:
         - postgres_data:/var/lib/postgresql/data
+
   redis:
-    image: "redis:latest"
+    image: "redis:alpine"
     env_file:
     - ./.envs/.redis
-    container_name: ola_store_reids_container
+    container_name: redis_contianer
     networks:
-    - ola_network
+    - store_network
     ports:
       - "6379:6379"
     volumes:
       - redis_data:/data
-  rabbitmq:
-    image: rabbitmq:management
-    container_name : ola_store_rabbitmq_container
-    networks:
-      - ola_network
-    ports:
-      - "5672:5672"  # RabbitMQ messaging port
-      - "15672:15672"  # RabbitMQ management UI port
-    env_file:
-      - ./.envs/.rabbitmq
 
   celeryworker:
     <<: *django
-    image: olastore_local_celeryworker
-    container_name: olastore_local_celeryworker
+    image: celery_worker
+    container_name: celery_worker
     networks:
-      - ola_network
+      - store_network
     depends_on:
-      - rabbitmq
+      - redis
       - postgresql
     ports: []
     command: /start-celeryworker

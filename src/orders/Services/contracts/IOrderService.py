@@ -1,7 +1,3 @@
-from antidote import interface
-
-
-@interface
 class IOrderService:
     async def createOrder(self, user, order_data):
         raise NotImplementedError("you should implement createOrder Method")

@@ -1,11 +1,8 @@
 from src.orders.Services.contracts.IOrderService import IOrderService
 from src.orders.api.serializers import OrderSerializer
 from rest_framework.serializers import ValidationError
-from antidote import implements, injectable
 
 
-@implements(IOrderService)
-@injectable
 class OrderService(IOrderService):
     async def createOrder(self, user, order_data):
         serializer = OrderSerializer(data=order_data)

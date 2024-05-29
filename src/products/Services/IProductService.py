@@ -1,12 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Dict, List, Any
-
-from antidote import interface
-
+from typing import Dict, Any
 from src.products.models import Product
 
 
-@interface
 class IProductService(ABC):
     @abstractmethod
     def createProductService(self, request_data) -> Any:
@@ -21,9 +17,9 @@ class IProductService(ABC):
         return NotImplementedError
 
     @abstractmethod
-    def deleteProductService(self, product_id):
+    def deleteProductService(self, product_id) -> Any:
         return NotImplementedError
 
     @abstractmethod
-    def getAllProductsService(self) -> List[Product]:
+    def getAllProductsService(self) -> Dict:
         return NotImplementedError
