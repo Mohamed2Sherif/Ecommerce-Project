@@ -34,7 +34,7 @@ h11==0.14.0
 identify==2.5.36
 idna==3.7
 kombu==5.3.7
-nodeenv==1.8.0
+nodeenv==1.9.1
 pillow==10.3.0
 platformdirs==4.2.1
 pre-commit==3.7.1
