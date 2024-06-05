@@ -1,22 +1,5 @@
-# Build Stage 1
-FROM docker.io/python:3.11.7-slim-bookworm as python-build-stage
-
-ARG BUILD_ENVIRONMENT=local
-
-# Install apt packages
-RUN apt-get update && apt-get install --no-install-recommends -y \
-  # dependencies for building Python packages
-  build-essential \
-  # psycopg2 dependencies
-  libpq-dev
-
-COPY ./requirements .
-
-RUN pip wheel --wheel-dir /usr/src/app/wheels  \
-  -r ${BUILD_ENVIRONMENT}.txt
-
-# Build Stage 2
-FROM docker.io/python:3.11.7-slim-bookworm as python-run-stage
+# Use the official slim Python image from the Docker Hub
+FROM python:3.12.3-slim-bullseye AS python-run-stage
 
 ARG BUILD_ENVIRONMENT=local
 
@@ -28,7 +11,9 @@ ARG APPHOME=/app
 
 WORKDIR ${APPHOME}
 
+# Install apt packages
 RUN apt-get update && apt-get install --no-install-recommends -y \
+  build-essential \
   # psycopg2 dependencies
   libpq-dev \
   # Translations dependencies
@@ -37,10 +22,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
   && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
   && rm -rf /var/lib/apt/lists/*
 
-COPY --from=python-build-stage /usr/src/app/wheels /wheels/
-
-RUN pip install --no-cache-dir --no-index --find-links=/wheels/ /wheels/* \
-  && rm -rf /wheels/
+# Copy requirements file and install dependencies
+COPY ./requirements/ ./requirements
+RUN pip install --no-cache-dir -r ./requirements/${BUILD_ENVIRONMENT}.txt 
 
 EXPOSE 8000
 
@@ -56,7 +40,7 @@ COPY ./compose/local/django/start.sh /start
 RUN sed -i 's/\r$//g' /start
 RUN chmod +x /start
 
-
+# Copy the entire application
 COPY . ${APPHOME}
 
 CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
