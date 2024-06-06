@@ -1,7 +1,7 @@
 from django.urls import path
 
 
-from .api.views import ListCreateView
+from src.orders.api.views import CreateOrderService
 
 
-urlpatterns = [path("create", ListCreateView.as_view(), name="ListCreateOrders")]
+urlpatterns = [path("createOrder", CreateOrderService.as_view(), name="CreateOrders")]

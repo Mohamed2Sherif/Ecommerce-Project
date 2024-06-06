@@ -1,18 +1,13 @@
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework import status
+from src.orders.Services.OrderService import OrderService
 
 
-class ListCreateView(APIView):
-    permission_classes = [IsAuthenticated]
+class CreateOrderService(APIView):
+    order_service = OrderService()
 
-    def __init__(self, orderService):  # type: ignore
-        self._orderService = orderService
-
-    async def post(self, request, *args, **kwargs):
-        user_data = request.user
-        print(user_data.id)
-        order_resposne = await self._orderService.createOrder(
-            user=request.user, order_data=request.data
-        )
-        return Response(order_resposne)
+    def post(self, request, *args, **kwargs):
+        request_data = request.data
+        data = self.order_service.createOrder(order_data=request_data)
+        return Response(data, status=status.HTTP_201_CREATED)

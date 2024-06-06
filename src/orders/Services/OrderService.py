@@ -1,24 +1,23 @@
 from src.orders.Services.contracts.IOrderService import IOrderService
 from src.orders.api.serializers import OrderSerializer
-from rest_framework.serializers import ValidationError
 
 
 class OrderService(IOrderService):
-    async def createOrder(self, user, order_data):
+    def createOrder(self, order_data):
         serializer = OrderSerializer(data=order_data)
-        try:
-            if serializer.is_valid(raise_exception=True):
-                await serializer.asave(User=user)
-                data = await serializer.adata
-                return data
-        except ValidationError:
-            raise ValidationError(serializer.errors)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save
+            data = serializer.data
+            return data
 
-    async def getOrder(self, order_id):
-        return "you should implement getOrder Method"
+    def getAllOrders(self):
+        pass
 
-    async def deleteOrder(self, order_id):
-        return "you should implement deleteOrder Method"
+    def getAllCurrentOrders(self):
+        pass
 
-    async def updateOrder(self, order, order_id):
-        return "you should implement updateOrder Method"
+    def update_order(self, order_id, updated_data):
+        pass
+
+    def deleteOrder(self, order_id):
+        pass

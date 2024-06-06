@@ -21,6 +21,7 @@ class AddressAdmin(admin.ModelAdmin):
 
     #  Customize the detail view
     fieldsets = [
+        ("Address ID", {"fields": ["address_ID"]}),
         ("User Information", {"fields": ["user"]}),
         (
             "Address Details",
@@ -39,4 +40,4 @@ class AddressAdmin(admin.ModelAdmin):
     ]
 
     #  Add readonly_fields if needed
-    # readonly_fields = ['user']
+    readonly_fields = ["address_ID"]

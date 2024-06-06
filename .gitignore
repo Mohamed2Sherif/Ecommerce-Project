@@ -283,5 +283,3 @@ olastore/media/
 !.envs/.local/
 storediagram.gif
 todo.md
-**/migrations/
-**/__pycache__/
