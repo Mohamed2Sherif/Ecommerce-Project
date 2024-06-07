@@ -21,6 +21,7 @@ class Order(models.Model):
     material = models.CharField(max_length=50, default="N/A")
     color = models.CharField(max_length=50, default="N/A")
     ship_date = models.DateField()
+    delivered = models.BooleanField(default=False, db_index=True)
 
     class Meta:
         verbose_name = "Order"
