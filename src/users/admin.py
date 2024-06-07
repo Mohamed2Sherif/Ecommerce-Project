@@ -24,7 +24,8 @@ class OtpAdmin(admin.ModelAdmin):
 @admin.register(Customer)
 class CustomerAdmin(admin.ModelAdmin):
     fields = [
+        "pk",
         "user",
         "address",
-        "paymentInformation",
     ]
+    readonly_fields = ["pk"]
