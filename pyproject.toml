@@ -1,0 +1,6 @@
+[tool.ruff]
+exclude = [
+  "src/orders/migrations/",
+  "**/migrations/"
+]
+

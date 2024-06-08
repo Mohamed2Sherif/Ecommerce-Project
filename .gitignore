@@ -282,3 +282,4 @@ olastore/media/
 .envs/*
 !.envs/.local/
 storediagram.gif
+todo.md

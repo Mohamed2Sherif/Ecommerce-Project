@@ -1,12 +1,23 @@
-class IOrderService:
-    async def createOrder(self, user, order_data):
-        raise NotImplementedError("you should implement createOrder Method")
+from abc import ABC, abstractmethod
 
-    async def getOrder(self, order_id):
-        raise NotImplementedError("you should implement getOrder Method")
 
-    async def deleteOrder(self, order_id):
-        raise NotImplementedError("you should implement deleteOrder Method")
+class IOrderService(ABC):
+    @abstractmethod
+    def createOrder(self, order_data):
+        raise NotImplementedError
 
-    async def updateOrder(self, order, order_id):
-        raise NotImplementedError("you should implement updateOrder Method")
+    @abstractmethod
+    def getAllOrders(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def getAllCurrentOrders(self):
+        raise NotImplementedError
+
+    @abstractmethod
+    def update_order(self, order_id, updated_data):
+        raise NotImplementedError
+
+    @abstractmethod
+    def deleteOrder(self, order_id):
+        raise NotImplementedError

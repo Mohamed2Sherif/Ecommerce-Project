@@ -29,6 +29,7 @@ class Address(models.Model):
             models.Index(fields=["country"]),
             models.Index(fields=["zip_code"]),
         ]
+        db_table = "Addresses"
 
     def __str__(self):
         return f"{self.address_type} Address for {self.user.username}"
