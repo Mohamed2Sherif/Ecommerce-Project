@@ -4,20 +4,11 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from src.products.Services.ProductService import ProductService
 
 
-class ProductsList(APIView):
-    def __init__(self):
-        self.product_service = ProductService()
-
-    def get(self, request, *args, **kwargs):
-        try:
-            products = self.product_service.getAllProductsService()
-            print(products)
-            return Response({"products": products}, status=status.HTTP_200_OK)
-        except ValueError as e:
-            return Response(e.args[0], status=status.HTTP_400_BAD_REQUEST)
+class CreateProduct(APIView):
+    def __init__(self, product_service):
+        self.product_service = product_service
 
     def post(self, request, *args, **kwargs):
         try:
@@ -35,27 +26,50 @@ class ProductsList(APIView):
             return Response(e.args[0], status=status.HTTP_400_BAD_REQUEST)
 
 
-class UpdateDeleteProduct(APIView):
-    def __init__(self):
-        self.productservice = ProductService()
+class GetAllProducts(APIView):
+    def __init__(self, product_service):
+        self.product_service = product_service
+
+    def get(self, request, *args, **kwargs):
+        try:
+            products = self.product_service.getAllProductsService()
+            print(products)
+            return Response({"products": products}, status=status.HTTP_200_OK)
+        except ValueError as e:
+            return Response(e.args[0], status=status.HTTP_400_BAD_REQUEST)
+
+
+class UpdateProduct(APIView):
+    def __init__(self, product_service):
+        self.product_service = product_service
 
     def post(self, request, id: UUID):
         try:
-            self.productservice.updateProductService(product_id=id, data=request.data)
+            self.product_service.updateProductService(product_id=id, data=request.data)
             return Response(status=status.HTTP_200_OK)
         except (ObjectDoesNotExist, ValidationError) as e:
             return Response(e.args, status=status.HTTP_400_BAD_REQUEST)
 
+
+class GetProduct(APIView):
+    def __init__(self, product_service):
+        self.product_service = product_service
+
     def get(self, request, id: UUID):
         try:
-            product = self.productservice.getProductService(product_id=id)
+            product = self.product_service.getProductService(product_id=id)
             return Response(product)
         except (ObjectDoesNotExist, ValidationError) as e:
             return Response(e.args, status=status.HTTP_400_BAD_REQUEST)
 
+
+class DeleteProduct(APIView):
+    def __init__(self, product_service):
+        self.product_service = product_service
+
     def delete(self, request, id: UUID):
         try:
-            deleted = self.productservice.deleteProductService(product_id=id)
+            deleted = self.product_service.deleteProductService(product_id=id)
             if deleted:
                 return Response(status=status.HTTP_200_OK)
             else:
