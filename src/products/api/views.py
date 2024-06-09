@@ -4,9 +4,13 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from typing import Optional
+from src.products.Services.ProductService import ProductService
 
 
 class CreateProduct(APIView):
+    product_service: Optional[ProductService] = None
+
     def __init__(self, product_service):
         self.product_service = product_service
 
@@ -27,6 +31,8 @@ class CreateProduct(APIView):
 
 
 class GetAllProducts(APIView):
+    product_service: Optional[ProductService] = None
+
     def __init__(self, product_service):
         self.product_service = product_service
 
@@ -40,6 +46,8 @@ class GetAllProducts(APIView):
 
 
 class UpdateProduct(APIView):
+    product_service: Optional[ProductService] = None
+
     def __init__(self, product_service):
         self.product_service = product_service
 
@@ -52,6 +60,8 @@ class UpdateProduct(APIView):
 
 
 class GetProduct(APIView):
+    product_service: Optional[ProductService] = None
+
     def __init__(self, product_service):
         self.product_service = product_service
 
@@ -64,6 +74,8 @@ class GetProduct(APIView):
 
 
 class DeleteProduct(APIView):
+    product_service: Optional[ProductService] = None
+
     def __init__(self, product_service):
         self.product_service = product_service
 
