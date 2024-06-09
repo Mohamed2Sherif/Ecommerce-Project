@@ -2,6 +2,7 @@ from django.db import models
 from src.products.models import Product
 from src.address.models import Address
 from src.users.userprofiles import Customer
+from .utils import SizeChoices
 
 
 class Order(models.Model):
@@ -17,11 +18,12 @@ class Order(models.Model):
     quantity = models.IntegerField()
     discount = models.DecimalField(max_digits=8, decimal_places=2)
     total = models.DecimalField(max_digits=8, decimal_places=2)
-    size = models.CharField(max_length=50, null=True, blank=True, default="N/A")
-    material = models.CharField(max_length=50, default="N/A")
-    color = models.CharField(max_length=50, default="N/A")
     ship_date = models.DateField()
     delivered = models.BooleanField(default=False, db_index=True)
+    size = models.CharField(
+        max_length=10,
+        choices=SizeChoices.CHOICES,
+    )
 
     class Meta:
         verbose_name = "Order"

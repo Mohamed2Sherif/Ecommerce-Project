@@ -19,7 +19,7 @@ class OrderService(IOrderService):
         return data
 
     def getAllCurrentOrders(self):
-        queryset = Order.objects.filter(delivered=False)
+        queryset = Order.objects.filter(delivered=False).all()
         serializer = OrderSerializer(queryset, many=True)
         return serializer.data
 

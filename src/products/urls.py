@@ -15,7 +15,8 @@ urlpatterns = [
     ),
     path(
         "product/<uuid:id>/",
-        views.GetProduct.as_view(product_service=ProductService(), name="GetProduct"),
+        views.GetProduct.as_view(product_service=ProductService()),
+        name="GetProduct",
     ),
     path(
         "products/",

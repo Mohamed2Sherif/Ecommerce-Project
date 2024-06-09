@@ -7,9 +7,9 @@ from django_json_widget.widgets import JSONEditorWidget
 # Register your models here.
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    readonly_fields = ["id"]
+    readonly_fields = ["product_id"]
 
     formfield_overrides = {
         models.JSONField: {"widget": JSONEditorWidget},
     }
-    fields = ["id", "product_info", "category_info"]
+    fields = ["product_id", "product_info", "category_info"]
