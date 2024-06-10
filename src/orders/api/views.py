@@ -1,3 +1,4 @@
+from typing import Optional
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -5,7 +6,10 @@ from src.orders.Services.OrderService import OrderService
 
 
 class CreateOrder(APIView):
-    order_service = OrderService()
+    order_service: Optional[OrderService] = None
+
+    def __init__(self, order_service):
+        self.order_service = order_service
 
     def post(self, request, *args, **kwargs):
         request_data = request.data
@@ -14,7 +18,10 @@ class CreateOrder(APIView):
 
 
 class UpdateOrder(APIView):
-    order_service = OrderService()
+    order_service: Optional[OrderService] = None
+
+    def __init__(self, order_service):
+        self.order_service = order_service
 
     def post(self, request, id, *args, **kwargs):
         request_data = request.data
@@ -23,7 +30,10 @@ class UpdateOrder(APIView):
 
 
 class GetAllCurrentOrders(APIView):
-    order_service = OrderService()
+    order_service: Optional[OrderService] = None
+
+    def __init__(self, order_service):
+        self.order_service = order_service
 
     def get(self, request, *args, **kwargs):
         response_data = self.order_service.getAllCurrentOrders()
@@ -31,7 +41,10 @@ class GetAllCurrentOrders(APIView):
 
 
 class GetAllOrders(APIView):
-    order_service = OrderService()
+    order_service: Optional[OrderService] = None
+
+    def __init__(self, order_service):
+        self.order_service = order_service
 
     def get(self, request, *args, **kwargs):
         response_data = self.order_service.getAllOrders()
@@ -39,7 +52,10 @@ class GetAllOrders(APIView):
 
 
 class DeleteOrder(APIView):
-    order_service = OrderService()
+    order_service: Optional[OrderService] = None
+
+    def __init__(self, order_service):
+        self.order_service = order_service
 
     def post(self, request, id):
         try:
