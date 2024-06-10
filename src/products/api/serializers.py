@@ -3,23 +3,33 @@ from src.products.models import Product
 from src.orders.utils import SizeChoices
 
 
+class CommaSeparatedField(serializers.CharField):
+    def __init__(self, *args, **kwargs):
+        self.choices = kwargs.pop("choices", None)
+        super().__init__(*args, **kwargs)
+
+    def to_representation(self, value):
+        if value is None:
+            return []
+        return value.split(",")
+
+    def to_internal_value(self, data):
+        if not isinstance(data, list):
+            raise serializers.ValidationError("Expected a list of items")
+        if not data:
+            raise serializers.ValidationError("this field cannot be empty")
+        if self.choices:
+            for item in data:
+                if item not in dict(self.choices):
+                    raise serializers.ValidationError("Invalid Choice:{item}")
+            return ",".join(data)
+
+
 class ProductSerializer(serializers.ModelSerializer):
-    sizes = serializers.ListField(
-        child=serializers.MultipleChoiceField(choices=SizeChoices.CHOICES)
-    )
+    available_sizes = CommaSeparatedField(choices=SizeChoices.CHOICES)
+    available_colors = CommaSeparatedField(choices=SizeChoices.CHOICES)
 
     class Meta:
         model = Product
-        fields = ["id", "product_info", "category_info"]
+        fields = "__all__"
         read_only_fields = ["created_time", "id", "updated_time"]
-
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        representation["sizes"] = instance.sizes.split(",")
-        return representation
-
-    def to_internal_value(self, data):
-        internal_value = super().to_internal_value(data)
-        sizes = data.get("sizes", [])
-        internal_value["sizes"] = ",".join(sizes)
-        return internal_value
