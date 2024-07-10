@@ -14,7 +14,7 @@ cron-descriptor==1.4.3
 distlib==0.3.8
 dj-database-url==2.1.0
 dj-rest-auth==6.0.0
-Django==5.0.6
+Django==5.0.7
 django-allauth==0.62.1
 django-celery-beat==2.6.0
 django-cors-headers==4.3.1
