@@ -37,7 +37,7 @@ kombu==5.3.7
 nodeenv==1.8.0
 pillow==10.3.0
 platformdirs==4.2.1
-pre-commit==3.7.1
+pre-commit==4.2.0
 prompt-toolkit==3.0.43
 psycopg2==2.9.9
 PyJWT==2.8.0
