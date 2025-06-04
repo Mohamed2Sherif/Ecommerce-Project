@@ -28,7 +28,7 @@ djangorestframework==3.15.1
 djangorestframework-simplejwt==5.3.1
 elastic-transport==8.13.0
 elasticsearch==8.13.1
-elasticsearch-dsl==8.13.1
+elasticsearch-dsl==8.18.0
 filelock==3.14.0
 h11==0.14.0
 identify==2.5.36
